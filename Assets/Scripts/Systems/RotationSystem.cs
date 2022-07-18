@@ -10,11 +10,11 @@ public class RotationSystem : JobComponentSystem
     {
         float deltaTime = Time.DeltaTime;
 
-        Entities.ForEach((ref Rotation rotation, in RotationData rotationData) =>
+        Entities.ForEach((ref Rotation rotation, in AsteroidRotationData asteroidRotation) =>
         {
-            rotation.Value = math.mul(rotation.Value, quaternion.RotateX(math.radians(rotationData.rotationSpeed * deltaTime)));
-            rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(rotationData.rotationSpeed * deltaTime)));
-            rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(rotationData.rotationSpeed * deltaTime)));
+            rotation.Value = math.mul(rotation.Value, quaternion.RotateX(math.radians(asteroidRotation.rotationSpeed * deltaTime)));
+            rotation.Value = math.mul(rotation.Value, quaternion.RotateY(math.radians(asteroidRotation.rotationSpeed * deltaTime)));
+            rotation.Value = math.mul(rotation.Value, quaternion.RotateZ(math.radians(asteroidRotation.rotationSpeed * deltaTime)));
         }).Run();
 
         return default;
