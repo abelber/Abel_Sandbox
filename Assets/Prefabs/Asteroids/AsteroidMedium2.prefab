@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3241760672695465186}
+  - component: {fileID: 9191909323604517587}
   m_Layer: 0
   m_Name: AsteroidMedium2
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9191909323604517587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6545130332928929273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
 --- !u!1001 &8258780217273961104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,6 +52,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3241760672695465186}
     m_Modifications:
+    - target: {fileID: 708155898281301075, guid: d40f361dd91cd4243bff7f88b7ed22ab, type: 3}
+      propertyPath: speedMax
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 708155898281301075, guid: d40f361dd91cd4243bff7f88b7ed22ab, type: 3}
+      propertyPath: speedMin
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 8130341676073215794, guid: d40f361dd91cd4243bff7f88b7ed22ab, type: 3}
       propertyPath: m_Name
       value: Taoutatis_LP

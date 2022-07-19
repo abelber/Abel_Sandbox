@@ -20,7 +20,7 @@ public class AsteroidSpawnerSystem : SystemBase
     {
         var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer();
 
-        Entities.WithName("AsteroidSpawnerSystem").WithBurst(FloatMode.Default, FloatPrecision.Standard, true).ForEach((Entity entity, int entityInQueryIndex, in SpawnerData spawnerData, in LocalToWorld location) =>
+        Entities.WithName("AsteroidsSpawnerSystem").WithBurst(FloatMode.Default, FloatPrecision.Standard, true).ForEach((Entity entity, int entityInQueryIndex, in SpawnerData spawnerData, in LocalToWorld location) =>
         {
             for(var x=0; x < spawnerData.countX; x++)
             {

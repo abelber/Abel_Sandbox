@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7093504569914265356}
+  - component: {fileID: 3377500575207255529}
   m_Layer: 0
   m_Name: AsteroidBig
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3377500575207255529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2124074465396389157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
 --- !u!1001 &3312326528220878655
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,6 +52,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7093504569914265356}
     m_Modifications:
+    - target: {fileID: 2683307623664920473, guid: fb2fb89615a3b8f4fb9020966b068526, type: 3}
+      propertyPath: speedMax
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2683307623664920473, guid: fb2fb89615a3b8f4fb9020966b068526, type: 3}
+      propertyPath: speedMin
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5016321123511975816, guid: fb2fb89615a3b8f4fb9020966b068526, type: 3}
       propertyPath: m_RootOrder
       value: 0
