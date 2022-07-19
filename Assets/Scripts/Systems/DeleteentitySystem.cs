@@ -8,16 +8,18 @@ public class DeleteentitySystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-       EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Allocator.Temp);
+        /*       EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Allocator.Temp);
 
-        Entities.WithAll<DeleteTag>().WithoutBurst().ForEach((Entity entity) =>
-        {
-            commandBuffer.DestroyEntity(entity);
-        }).Run();
+                Entities.WithAll<DeleteTag>().WithoutBurst().ForEach((Entity entity) =>
+                {
+                    commandBuffer.DestroyEntity(entity);
+                }).Run();
 
-        commandBuffer.Playback(EntityManager);
-        commandBuffer.Dispose();
+                commandBuffer.Playback(EntityManager);
+                commandBuffer.Dispose();
 
+                return default;
+        */
         return default;
     }
 }

@@ -3,6 +3,9 @@ using Unity.Jobs;
 using Unity.Physics;
 using Unity.Mathematics;
 using UnityEngine;
+using Unity.Physics.Authoring;
+using Unity.Physics.Extensions;
+using Unity.Transforms;
 
 [AlwaysSynchronizeSystem]
 public class MovementSystem : JobComponentSystem
@@ -11,17 +14,38 @@ public class MovementSystem : JobComponentSystem
     {
         float deltaTime = Time.DeltaTime;
 
-        float2 curInput = new float2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        float currentAcelInput = Input.GetAxis("Vertical");
+        float currentRotationInput = Input.GetAxis("Horizontal");
 
         Entities.ForEach((ref PhysicsVelocity vel, in MovementData mData) =>
         {
-            float2 newVel = vel.Linear.xz;
+            float newAngularVel = vel.Angular.y;
 
-            newVel += curInput * mData.speed;
+            newAngularVel = currentRotationInput * mData.rotationSpeed;
 
-            vel.Linear.xz = newVel;
+            vel.Angular.y = newAngularVel;
         }).Run();
 
-        return default;
+        Entities.ForEach((Rotation entityRotation, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in MovementData mData) =>
+        {
+            var linearVelocity = physicsVelocity.Linear.xyz;
+
+            if (currentAcelInput > 0)
+            {   //thrust to the right of where the player is facing
+                linearVelocity += math.mul(entityRotation.Value, new float3(0, 0, 1)).xyz * deltaTime * mData.speedForward;
+            }
+
+            if (currentAcelInput < 0)
+            {   //thrust backwards of where the player is facing
+                linearVelocity -= math.mul(entityRotation.Value, new float3(0, 0, 1)).xyz * deltaTime * mData.speedBackward;
+            }
+
+            linearVelocity.x = ((int)(linearVelocity.x * 100.0f)) / 100.0f;
+            linearVelocity.z = ((int)(linearVelocity.z * 100.0f)) / 100.0f;
+
+            physicsVelocity.Linear.xyz = linearVelocity;
+        }).Run();
+
+            return default;
     }
 }

@@ -4,7 +4,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 
 [AlwaysSynchronizeSystem]
-public class RotationSystem : JobComponentSystem
+public class AsteroidRotationSystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
