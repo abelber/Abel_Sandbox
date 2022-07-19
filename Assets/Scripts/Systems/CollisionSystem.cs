@@ -20,15 +20,15 @@ public class CollisionSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        /*  TriggerJob triggerJob = new TriggerJob
-          {
-              movementEntities = GetComponentDataFromEntity<MovementData>(),
-              entitiesToDelete = GetComponentDataFromEntity<DeleteTag>(),
-              commandBuffer = bufferSystem.CreateCommandBuffer()
-          };
+        /*     TriggerJob triggerJob = new TriggerJob
+             {
+                 movementEntities = GetComponentDataFromEntity<MovementData>(),
+                 entitiesToDelete = GetComponentDataFromEntity<DeleteTag>(),
+                 commandBuffer = bufferSystem.CreateCommandBuffer()
+             };
 
-          return triggerJob.Schedule(stepPhysicsWorld.Simulation, ref buildPhysicsWorld.PhysicsWorld, inputDeps);*/
-
+             return triggerJob.Schedule(stepPhysicsWorld.Simulation, ref buildPhysicsWorld.PhysicsWorld, inputDeps);
+        */
         return default;
     }
 

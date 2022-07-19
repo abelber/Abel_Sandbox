@@ -4,22 +4,20 @@ using Unity.Collections;
 
 [AlwaysSynchronizeSystem]
 [UpdateAfter(typeof(CollisionSystem))]
-public class DeleteentitySystem : JobComponentSystem
+public class DeleteEntitySystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        /*       EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Allocator.Temp);
+        EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Allocator.TempJob);
 
-                Entities.WithAll<DeleteTag>().WithoutBurst().ForEach((Entity entity) =>
-                {
-                    commandBuffer.DestroyEntity(entity);
-                }).Run();
+        Entities.WithAll<DeleteTag>().WithoutBurst().ForEach((Entity entity) =>
+        {
+            commandBuffer.DestroyEntity(entity);
+        }).Run();
 
-                commandBuffer.Playback(EntityManager);
-                commandBuffer.Dispose();
+        commandBuffer.Playback(EntityManager);
+        commandBuffer.Dispose();
 
-                return default;
-        */
         return default;
     }
 }
