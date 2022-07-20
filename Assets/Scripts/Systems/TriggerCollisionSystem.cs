@@ -14,10 +14,13 @@ public class TriggerCollisionSystem : JobComponentSystem
 
     EntityQuery triggerGroup;
 
+    private EndSimulationEntityCommandBufferSystem commandBufferSystem;
+
     protected override void OnCreate()
     {
         buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
         stepPhysicsWorld = World.GetOrCreateSystem<StepPhysicsWorld>();
+        commandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         triggerGroup = GetEntityQuery(new EntityQueryDesc
         {
             All = new ComponentType[] { typeof(TriggerCollisionData), }
@@ -28,28 +31,38 @@ public class TriggerCollisionSystem : JobComponentSystem
     {
         JobHandle jobHandle = new TriggerCollisionJob
         {
-            triggerCollisionGroup = GetComponentDataFromEntity<TriggerCollisionData>(true),
+            playersGroup = GetComponentDataFromEntity<TriggerCollisionData>(true),
+            asteroidsGroup = GetComponentDataFromEntity<AsteroidMovementData>(true),
+            powerUpsGroup = GetComponentDataFromEntity<PowerUpData>(true),
+            limitsGroup = GetComponentDataFromEntity<LimitsTag>(true),
             physicsGranvityFactorGroup = GetComponentDataFromEntity<PhysicsGravityFactor>(),
-            physicsVelocityGroup = GetComponentDataFromEntity<PhysicsVelocity>()
+            physicsVelocityGroup = GetComponentDataFromEntity<PhysicsVelocity>(),
+            entityCommandBuffer = commandBufferSystem.CreateCommandBuffer()
         }.Schedule(stepPhysicsWorld.Simulation, ref buildPhysicsWorld.PhysicsWorld, inputDeps);
 
+        jobHandle.Complete();
         return jobHandle;
     }
 
     [BurstCompile]
     struct TriggerCollisionJob : ITriggerEventsJob
     {
-        [ReadOnly] public ComponentDataFromEntity<TriggerCollisionData> triggerCollisionGroup;
+        [ReadOnly] public ComponentDataFromEntity<TriggerCollisionData> playersGroup;
+        [ReadOnly] public ComponentDataFromEntity<AsteroidMovementData> asteroidsGroup;
+        [ReadOnly] public ComponentDataFromEntity<PowerUpData> powerUpsGroup;
+        [ReadOnly] public ComponentDataFromEntity<LimitsTag> limitsGroup;
         public ComponentDataFromEntity<PhysicsGravityFactor> physicsGranvityFactorGroup;
         public ComponentDataFromEntity<PhysicsVelocity> physicsVelocityGroup;
+
+        public EntityCommandBuffer entityCommandBuffer;
 
         public void Execute(TriggerEvent triggerEvent)
         {
             Entity entityA = triggerEvent.EntityA;
             Entity entityB = triggerEvent.EntityB;
 
-            bool isBodyATrigger = triggerCollisionGroup.HasComponent(entityA);
-            bool isBodyBTrigger = triggerCollisionGroup.HasComponent(entityB);
+            bool isBodyATrigger = playersGroup.HasComponent(entityA);
+            bool isBodyBTrigger = playersGroup.HasComponent(entityB);
 
             Debug.Log("COLLISION");
 
@@ -59,11 +72,24 @@ public class TriggerCollisionSystem : JobComponentSystem
                 return;
             }
 
-            if(entityA == null && entityB.GetType() == typeof(AsteroidMovementData))
+            if (playersGroup.HasComponent(entityB) && asteroidsGroup.HasComponent(entityA))
             {
-                Debug.Log("SHIP / ASTEROID - Collision!");
+                Debug.Log("Hit Asteroid!");
+
+                entityCommandBuffer.DestroyEntity(entityB);
             }
 
+            if (playersGroup.HasComponent(entityB) && powerUpsGroup.HasComponent(entityA))
+            {
+                Debug.Log("Pick PowerUp");
+                 entityCommandBuffer.DestroyEntity(entityA);
+            }
+
+            if (playersGroup.HasComponent(entityB) && limitsGroup.HasComponent(entityA))
+            {
+                Debug.Log("Hit Limit");
+                //entityCommandBuffer.DestroyEntity(entityB);
+            }
         }
     }
 }

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5700631755250342190}
   - component: {fileID: -4839764545630787071}
   - component: {fileID: 1344200920022746662}
+  - component: {fileID: 785845020}
+  - component: {fileID: 785845025}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -48,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MotionType: 0
+  m_Smoothing: 0
   m_Mass: 1
   m_LinearDamping: 0.01
   m_AngularDamping: 0.05
@@ -133,7 +136,7 @@ MonoBehaviour:
     m_Template: {fileID: 0}
     m_CollisionResponse:
       m_Override: 0
-      m_Value: 3
+      m_Value: 0
     m_Friction:
       m_Override: 0
       m_Value:
@@ -226,23 +229,7 @@ MonoBehaviour:
         Tag06: 0
         Tag07: 0
     m_SerializedVersion: 1
-    m_BelongsTo_Deprecated:
-      m_Override: 0
-      m_Value: 
-    m_CollidesWith_Deprecated:
-      m_Override: 0
-      m_Value: 
-    m_CustomTags_Deprecated:
-      m_Override: 0
-      m_Value: 
-    m_IsTrigger_Deprecated:
-      m_Override: 0
-      m_Value: 0
-    m_RaisesCollisionEvents_Deprecated:
-      m_Override: 0
-      m_Value: 0
   m_SerializedVersion: 1
-  m_ConvexRadius_Deprecated: -1
 --- !u!114 &-4839764545630787071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +257,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedForward: 10
   speedBackward: 5
-  rotationSpeed: 5
+  rotationSpeed: 3
+--- !u!114 &785845020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130603071637865966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2073584ee694d694da2567129821aaec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GravityFactor: 0
+  DampingFactor: 0
+--- !u!114 &785845025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130603071637865966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d66125385b039546b4efdb30aab00a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
 --- !u!1001 &5895832783905935768
 PrefabInstance:
   m_ObjectHideFlags: 0
