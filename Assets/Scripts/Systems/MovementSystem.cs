@@ -17,18 +17,14 @@ public class MovementSystem : JobComponentSystem
         float currentAcelInput = Input.GetAxis("Vertical");
         float currentRotationInput = Input.GetAxis("Horizontal");
 
-        Entities.ForEach((ref PhysicsVelocity vel, in MovementData mData) =>
+        Entities.ForEach((Translation entityLocation, Rotation entityRotation, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in MovementData mData) =>
         {
-            float newAngularVel = vel.Angular.y;
+            var linearVelocity = physicsVelocity.Linear.xyz;
+            float newAngularVel = physicsVelocity.Angular.y;
 
             newAngularVel = currentRotationInput * mData.rotationSpeed;
 
-            vel.Angular.y = newAngularVel;
-        }).Run();
-
-        Entities.ForEach((Rotation entityRotation, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in MovementData mData) =>
-        {
-            var linearVelocity = physicsVelocity.Linear.xyz;
+            physicsVelocity.Angular.y = newAngularVel;
 
             if (currentAcelInput > 0)
             {   //thrust to the right of where the player is facing
@@ -44,8 +40,32 @@ public class MovementSystem : JobComponentSystem
             linearVelocity.z = ((int)(linearVelocity.z * 100.0f)) / 100.0f;
 
             physicsVelocity.Linear.xyz = linearVelocity;
+
+            switch(mData.wallSide)
+            {
+                case MovementData.WallSide.Up:
+                    {
+                    //    entityLocation = new ;
+                        break;
+                    }
+                case MovementData.WallSide.Down:
+                    {
+                        entityLocation.Value += new float3(0, 0, 50);
+                        break;
+                    }
+                case MovementData.WallSide.Left:
+                    {
+                        entityLocation.Value += new float3(50, 0, 0);
+                        break;
+                    }
+                case MovementData.WallSide.Right:
+                    {
+                        break;
+                    }
+            }
+
         }).Run();
 
-            return default;
+        return default;
     }
 }

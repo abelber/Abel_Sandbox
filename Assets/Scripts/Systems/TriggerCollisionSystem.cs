@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Physics;
 using Unity.Physics.Systems;
+using Unity.Transforms;
 using UnityEngine;
 
 [UpdateAfter(typeof(EndFramePhysicsSystem))]
@@ -32,9 +33,13 @@ public class TriggerCollisionSystem : JobComponentSystem
         JobHandle jobHandle = new TriggerCollisionJob
         {
             playersGroup = GetComponentDataFromEntity<TriggerCollisionData>(true),
-            asteroidsGroup = GetComponentDataFromEntity<AsteroidMovementData>(true),
+            asteroidsGroup = GetComponentDataFromEntity<AsteroidRotationData>(true),
             powerUpsGroup = GetComponentDataFromEntity<PowerUpData>(true),
-            limitsGroup = GetComponentDataFromEntity<LimitsTag>(true),
+            limitsUpGroup = GetComponentDataFromEntity<LimitsUpTag>(true),
+            limitsDownGroup = GetComponentDataFromEntity<LimitsDownTag>(true),
+            limitsLeftGroup = GetComponentDataFromEntity<LimitsLeftTag>(true),
+            limitsRightGroup = GetComponentDataFromEntity<LimitsRightTag>(true),
+            projectilesGroup = GetComponentDataFromEntity<ProjectileData>(true),
             physicsGranvityFactorGroup = GetComponentDataFromEntity<PhysicsGravityFactor>(),
             physicsVelocityGroup = GetComponentDataFromEntity<PhysicsVelocity>(),
             entityCommandBuffer = commandBufferSystem.CreateCommandBuffer()
@@ -48,9 +53,13 @@ public class TriggerCollisionSystem : JobComponentSystem
     struct TriggerCollisionJob : ITriggerEventsJob
     {
         [ReadOnly] public ComponentDataFromEntity<TriggerCollisionData> playersGroup;
-        [ReadOnly] public ComponentDataFromEntity<AsteroidMovementData> asteroidsGroup;
+        [ReadOnly] public ComponentDataFromEntity<AsteroidRotationData> asteroidsGroup;
         [ReadOnly] public ComponentDataFromEntity<PowerUpData> powerUpsGroup;
-        [ReadOnly] public ComponentDataFromEntity<LimitsTag> limitsGroup;
+        [ReadOnly] public ComponentDataFromEntity<LimitsUpTag> limitsUpGroup;
+        [ReadOnly] public ComponentDataFromEntity<LimitsDownTag> limitsDownGroup;
+        [ReadOnly] public ComponentDataFromEntity<LimitsLeftTag> limitsLeftGroup;
+        [ReadOnly] public ComponentDataFromEntity<LimitsRightTag> limitsRightGroup;
+        [ReadOnly] public ComponentDataFromEntity<ProjectileData> projectilesGroup;
         public ComponentDataFromEntity<PhysicsGravityFactor> physicsGranvityFactorGroup;
         public ComponentDataFromEntity<PhysicsVelocity> physicsVelocityGroup;
 
@@ -72,24 +81,96 @@ public class TriggerCollisionSystem : JobComponentSystem
                 return;
             }
 
-            if (playersGroup.HasComponent(entityB) && asteroidsGroup.HasComponent(entityA))
+            //Player / PowerUp
+            if (playersGroup.HasComponent(entityA))
             {
-                Debug.Log("Hit Asteroid!");
+                if (powerUpsGroup.HasComponent(entityB))
+                {
+                    entityCommandBuffer.SetComponent(entityA, new ShipPowerUp { powerUp = powerUpsGroup[entityB].powerType });
+                    entityCommandBuffer.DestroyEntity(entityB);
+                }
+            }
+            //Player collisions
+            
+            if (playersGroup.HasComponent(entityB))
+            {
+                if (asteroidsGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Player Hit Asteroid!");
+                    entityCommandBuffer.SetComponent(entityB, new Translation { Value = Vector3.zero });
+                }
 
-                entityCommandBuffer.DestroyEntity(entityB);
+                if (powerUpsGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Pick PowerUp");
+                    entityCommandBuffer.SetComponent(entityB, new ShipPowerUp { powerUp = powerUpsGroup[entityA].powerType });
+                    entityCommandBuffer.DestroyEntity(entityA);
+                }
+
+                if (limitsUpGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Hit Limit UP");
+                    //entityCommandBuffer.SetComponent(entityB, new MovementData { wallSide = MovementData.WallSide.Up });
+                }
+
+                if (limitsDownGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Hit Limit");
+                    //entityCommandBuffer.SetComponent(entityB, new MovementData { wallSide = MovementData.WallSide.Down });
+                }
+
+                if (limitsLeftGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Hit Limit");
+                    //entityCommandBuffer.SetComponent(entityB, new MovementData { wallSide = MovementData.WallSide.Left });
+                }
+
+                if (limitsRightGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Hit Limit");
+                    //entityCommandBuffer.SetComponent(entityB, new MovementData { wallSide = MovementData.WallSide.Right });
+                }
+
             }
 
-            if (playersGroup.HasComponent(entityB) && powerUpsGroup.HasComponent(entityA))
+            //Projectiles Collisions
+            if (projectilesGroup.HasComponent(entityB))
             {
-                Debug.Log("Pick PowerUp");
-                 entityCommandBuffer.DestroyEntity(entityA);
+                if (limitsUpGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Projectile Hit Limit");
+                    entityCommandBuffer.DestroyEntity(entityB);
+                }
+
+                if (asteroidsGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Projectile Hit ASTEROID");
+                    entityCommandBuffer.AddComponent(entityA, new AsteroidSplitData { split = true });
+                    entityCommandBuffer.DestroyEntity(entityB);
+                }
+            }
+            else if (projectilesGroup.HasComponent(entityA))
+            {
+                if (asteroidsGroup.HasComponent(entityB))
+                {
+                    Debug.Log("Projectile Hit ASTEROID");
+                    entityCommandBuffer.AddComponent(entityB, new AsteroidSplitData { split = true });
+                    entityCommandBuffer.DestroyEntity(entityA);
+                }
             }
 
-            if (playersGroup.HasComponent(entityB) && limitsGroup.HasComponent(entityA))
+            //Asteroids Collisions
+            if (asteroidsGroup.HasComponent(entityB))
             {
-                Debug.Log("Hit Limit");
-                //entityCommandBuffer.DestroyEntity(entityB);
+                if (limitsUpGroup.HasComponent(entityA) || limitsDownGroup.HasComponent(entityA) || limitsLeftGroup.HasComponent(entityA) || limitsRightGroup.HasComponent(entityA))
+                {
+                    Debug.Log("Projectile Hit Limit");
+                    entityCommandBuffer.DestroyEntity(entityB);
+                }
             }
+
+            //entityCommandBuffer.Playback(World.DefaultGameObjectInjectionWorld.EntityManager);
+            //entityCommandBuffer.Dispose();
         }
     }
 }

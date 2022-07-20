@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1344200920022746662}
   - component: {fileID: 785845020}
   - component: {fileID: 785845025}
+  - component: {fileID: 751520284286002321}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -101,9 +102,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ShapeType: 0
   m_PrimitiveCenter:
-    x: -6.5701766
+    x: 0
     y: 0
-    z: 4.107694
+    z: 0
   m_PrimitiveSize:
     x: 2.0671816
     y: 0.39329433
@@ -258,6 +259,7 @@ MonoBehaviour:
   speedForward: 10
   speedBackward: 5
   rotationSpeed: 3
+  wallSide: 0
 --- !u!114 &785845020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,7 +286,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d66125385b039546b4efdb30aab00a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 4996020966119669286, guid: d6b2a9ad8e5f793489e088d07118a46f, type: 3}
+--- !u!114 &751520284286002321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1130603071637865966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2123023bca31d64aab731df21e4bf76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUp: 0
 --- !u!1001 &5895832783905935768
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,7 +325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9025152080659796410, guid: e13b14bfcdb9e834ca5b49f2ddd1b8e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.5701766
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9025152080659796410, guid: e13b14bfcdb9e834ca5b49f2ddd1b8e7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -318,7 +333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9025152080659796410, guid: e13b14bfcdb9e834ca5b49f2ddd1b8e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.1076937
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9025152080659796410, guid: e13b14bfcdb9e834ca5b49f2ddd1b8e7, type: 3}
       propertyPath: m_LocalRotation.w

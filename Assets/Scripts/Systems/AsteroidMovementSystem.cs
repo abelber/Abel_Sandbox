@@ -11,25 +11,29 @@ using Random = UnityEngine.Random;
 [AlwaysSynchronizeSystem]
 public class AsteroidMovementSystem : JobComponentSystem
 {
-    protected override void OnStartRunning()
+    BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
+
+    protected override void OnCreate()
     {
-        float deltaTime = Time.DeltaTime;
-
-        Entities.ForEach((Rotation entityRotation, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in AsteroidMovementData mData) =>
-        {
-            var linearVelocity = physicsVelocity.Linear.xyz;
-
-            var rndX = Random.Range(-1, 1);
-            var rndZ = Random.Range(-1, 1);
-
-            linearVelocity += new float3(rndX, 0, rndZ).xyz * deltaTime * (Random.Range(mData.speedMin, mData.speedMax));
-
-            physicsVelocity.ApplyLinearImpulse(physicsMass, linearVelocity);
-        }).Run();
+        m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
     }
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
+        var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer();
+        float deltaTime = Time.DeltaTime;
+
+        Entities.ForEach((Entity entity, Rotation entityRotation, ref PhysicsVelocity physicsVelocity, ref PhysicsMass physicsMass, in AsteroidMovementData mData) =>
+        {
+            var linearVelocity = physicsVelocity.Linear.xyz;
+
+            linearVelocity += math.mul(entityRotation.Value, Vector3.forward).xyz * deltaTime * (Random.Range(mData.speedMin, mData.speedMax));
+
+            physicsVelocity.ApplyLinearImpulse(physicsMass, linearVelocity);
+
+            commandBuffer.RemoveComponent<AsteroidMovementData>(entity);
+        }).Run();
+
         return default;
     }
 }
