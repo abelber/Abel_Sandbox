@@ -25,10 +25,7 @@ public class ProjectileSpawnerSystem : SystemBase
         {
             Entities.WithBurst(FloatMode.Default, Unity.Burst.FloatPrecision.Standard, true).ForEach((Entity entity, in ProjectileSpawnerData mData) =>
             {
-                var _settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null);
-                var _prefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(mData.prefab, _settings);
-
-                var instance = commandBuffer.Instantiate(_prefab);
+                var instance = commandBuffer.Instantiate(mData.prefab);
 
                 commandBuffer.SetComponent(entity, new Translation { Value = Vector3.zero });
             }).ScheduleParallel();

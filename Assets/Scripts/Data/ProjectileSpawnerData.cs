@@ -4,5 +4,5 @@ using UnityEngine;
 [GenerateAuthoringComponent]
 public struct ProjectileSpawnerData : IComponentData
 {
-    public GameObject prefab;
+    public Entity prefab;
 }

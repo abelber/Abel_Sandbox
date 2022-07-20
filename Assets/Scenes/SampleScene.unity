@@ -511,6 +511,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1130603071637865966, guid: 49732e1d5740ee742b68d1ae97b2d472, type: 3}
   m_PrefabInstance: {fileID: 1145724751}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &785845020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785845019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2073584ee694d694da2567129821aaec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GravityFactor: 0
+  DampingFactor: 0
 --- !u!114 &785845025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,13 +1279,14 @@ GameObject:
   - component: {fileID: 1710669292}
   - component: {fileID: 1710669291}
   - component: {fileID: 1710669290}
+  - component: {fileID: 1710669295}
   m_Layer: 0
   m_Name: PowerUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1710669290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1440,7 +1455,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  m_GravityFactor: 1
+  m_GravityFactor: 0
   m_OverrideDefaultMassDistribution: 0
   m_CenterOfMass:
     x: 0
@@ -1528,6 +1543,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1710669295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710669289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 0
 --- !u!1 &1879902037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2124074465396389157, guid: ae8189da351618049a993811c9f9583f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7093504569914265356, guid: ae8189da351618049a993811c9f9583f, type: 3}
       propertyPath: m_RootOrder

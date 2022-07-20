@@ -51,11 +51,17 @@ public class TriggerCollisionSystem : JobComponentSystem
             bool isBodyATrigger = triggerCollisionGroup.HasComponent(entityA);
             bool isBodyBTrigger = triggerCollisionGroup.HasComponent(entityB);
 
-            Debug.Log("COLLISIOOOOONNN");
+            Debug.Log("COLLISION");
 
+            //Ignore trigger overlapping
             if(isBodyATrigger && isBodyBTrigger)
             {
                 return;
+            }
+
+            if(entityA == null && entityB.GetType() == typeof(AsteroidMovementData))
+            {
+                Debug.Log("SHIP / ASTEROID - Collision!");
             }
 
         }
