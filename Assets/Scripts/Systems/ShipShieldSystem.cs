@@ -22,7 +22,6 @@ public class ShipShieldSystem : SystemBase
     protected override void OnUpdate()
     {
         var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer();//.ToConcurrent();
-        
 
         Entities.ForEach((Entity entity, in ShipShieldData mData) =>
         {
@@ -30,12 +29,15 @@ public class ShipShieldSystem : SystemBase
             {
                 cont += Time.DeltaTime;
 
+                Debug.Log("SHIELD CONT - "+cont);
+
                 if (cont > 6) //Shield during 6 seconds
                 {
+                    Debug.Log("SHIELD DISABLED!!");
+
                     cont = 0;
                     commandBuffer.SetComponent(entity, new ShipShieldData { shieldEnabled = false });
                 }
-
             }
         }).WithoutBurst().Run();
 

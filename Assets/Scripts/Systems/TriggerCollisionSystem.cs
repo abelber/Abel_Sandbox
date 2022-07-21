@@ -123,7 +123,7 @@ public class TriggerCollisionSystem : JobComponentSystem
 
                 if (powerUpsShieldGroup.HasComponent(entityB))
                 {
-                    Debug.Log("Pick PowerUp - HEALTH 1");
+                    Debug.Log("SHIELD Enabled!!");
                     entityCommandBuffer.SetComponent(entityA, new ShipShieldData { shieldEnabled = true });
                     entityCommandBuffer.DestroyEntity(entityB);
                 }
@@ -163,7 +163,7 @@ public class TriggerCollisionSystem : JobComponentSystem
 
                 if (powerUpsShieldGroup.HasComponent(entityA))
                 {
-                    Debug.Log("Pick PowerUp - HEALTH 2");
+                    Debug.Log("SHIELD Enabled!!");
                     entityCommandBuffer.SetComponent(entityB, new ShipShieldData { shieldEnabled = true });
                     entityCommandBuffer.DestroyEntity(entityA);
                 }
