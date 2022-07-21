@@ -8,7 +8,7 @@ public class DeleteEntitySystem : JobComponentSystem
 {
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Allocator.Temp);
+        EntityCommandBuffer commandBuffer = new EntityCommandBuffer(Allocator.TempJob);
 
         Entities.WithAll<DeleteTag>().WithoutBurst().ForEach((Entity entity) =>
         {

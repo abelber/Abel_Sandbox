@@ -1,7 +1,7 @@
 using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct RotationData : IComponentData
+public struct AsteroidRotationData : IComponentData
 {
     public float rotationSpeed;
 }

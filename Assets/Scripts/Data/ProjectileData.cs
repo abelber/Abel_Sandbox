@@ -1,7 +1,7 @@
 using Unity.Entities;
 
 [GenerateAuthoringComponent]
-public struct MovementData : IComponentData
+public struct ProjectileData : IComponentData
 {
     public float speed;
 }
