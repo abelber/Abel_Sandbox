@@ -4,12 +4,12 @@ using Unity.Transforms;
 using Unity.Burst;
 using System.Numerics;
 using System.Collections.Generic;
+using UnityEngine;
 
 [UpdateInGroup(typeof(SimulationSystemGroup))]
 public class AsteroidSplitSystem : SystemBase
 {
     BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
-    float cont = 0;
     List<Entity> asteroidSplitInfo;
 
     protected override void OnCreate()
@@ -22,6 +22,13 @@ public class AsteroidSplitSystem : SystemBase
     {
         var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer();//.ToConcurrent();
         var asteroidsToSplit = asteroidSplitInfo;
+
+        Entities.ForEach((Entity aEntity, in AsteroidDeleteTag asteroidData) =>
+        {
+            commandBuffer.DestroyEntity(aEntity);
+
+            return;
+        }).WithoutBurst().Run();
 
         Entities.ForEach((Entity asteroidEntity, in AsteroidSplitData asteroidSplitData) =>
         {
@@ -39,7 +46,6 @@ public class AsteroidSplitSystem : SystemBase
                 var instance2 = commandBuffer.Instantiate(mData.prefab);
 
                 commandBuffer.SetComponent(instance, new Translation { Value = location.Position });
-                commandBuffer.SetComponent(instance, new Rotation { Value = location.Rotation });
                 commandBuffer.SetComponent(instance2, new Translation { Value = location.Position });
 
                 commandBuffer.DestroyEntity(entity);

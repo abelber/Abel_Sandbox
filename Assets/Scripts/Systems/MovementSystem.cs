@@ -41,29 +41,6 @@ public class MovementSystem : JobComponentSystem
 
             physicsVelocity.Linear.xyz = linearVelocity;
 
-            switch(mData.wallSide)
-            {
-                case MovementData.WallSide.Up:
-                    {
-                    //    entityLocation = new ;
-                        break;
-                    }
-                case MovementData.WallSide.Down:
-                    {
-                        entityLocation.Value += new float3(0, 0, 50);
-                        break;
-                    }
-                case MovementData.WallSide.Left:
-                    {
-                        entityLocation.Value += new float3(50, 0, 0);
-                        break;
-                    }
-                case MovementData.WallSide.Right:
-                    {
-                        break;
-                    }
-            }
-
         }).Run();
 
         return default;

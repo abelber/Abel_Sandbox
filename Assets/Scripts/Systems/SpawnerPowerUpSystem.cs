@@ -23,7 +23,7 @@ public class SpawnerPowerUpSystem : SystemBase
         cont += Time.DeltaTime;
         var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer();//.ToConcurrent();
 
-        if (cont > 15)
+        if (cont > 2 && Random.Range(0,4) == 0) //2 seconds
         {
             Entities.ForEach((Entity entity, in LocalToWorld location, in SpawnerPowerUpData mData) =>
             {

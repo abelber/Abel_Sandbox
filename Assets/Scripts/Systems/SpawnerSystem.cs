@@ -22,7 +22,7 @@ public class SpawnerSystem : SystemBase
         cont += Time.DeltaTime;
         var commandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer();//.ToConcurrent();
 
-        if (cont > 4)
+        if (cont > 4 && Random.Range(0, 3) == 0) //4 seconds
         {
             Entities.WithBurst(FloatMode.Default, Unity.Burst.FloatPrecision.Standard, true).ForEach((Entity entity, in LocalToWorld location, in SpawnerData mData) =>
             {
